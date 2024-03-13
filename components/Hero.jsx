@@ -1,54 +1,43 @@
-import Image from 'next/image'
-import React from 'react'
+import Image from "next/image";
+import React from "react";
 import Logo from "@/assets/navbar/MajorProjectLogo.jpeg";
+import HeroImg from "@/assets/comps/Chigga.svg"
 import Unisys from "@/assets/hero/unisys.png";
+import download from "@/assets/comps/download.svg"
 
 const Hero = () => {
   return (
     <div>
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
-          <div>
-            <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight dark:text-white">
-              Bidirectional Translation System{" "}
-              <span className="text-blue-600">UNO</span>
+          <div className="pt-10">
+            <h1 className="block text-3xl font-bold text-customGreen sm:text-4xl lg:text-6xl lg:leading-tight">
+              Bi-Directional Translation System{" "}
+              <span className="text-green-600">UNO</span>
             </h1>
-            <p className="mt-3 text-lg text-gray-800 dark:text-gray-400">
+            {/* <p className="mt-3 text-lg text-gray-800 dark:text-gray-400">
               Not a regular translation, we do a lil more.
-            </p>
+            </p> */}
 
             <div className="mt-7 grid gap-3 w-full sm:inline-flex">
               <a
-                href="#translate"
-                className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                href="/translate"
+                className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-3xl border border-transparent bg-customDarkGreen text-black hover:bg- disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1"
               >
-                Get started
-                <svg
-                  className="flex-shrink-0 w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
+                Translate Now
               </a>
               <a
-                className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-3xl border border-gray-200 bg-customGreen text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1"
                 href="#"
               >
-                Contact Us
+                Download Extension
+                <Image src={download} />
               </a>
             </div>
 
             <div className="mt-6 lg:mt-10 grid grid-cols-2 gap-x-5">
               {/* <div className="py-5"> */}
-                 {/* <div className="flex space-x-1">
+              {/* <div className="flex space-x-1">
                   <svg
                     className="h-4 w-4 text-gray-800 dark:text-gray-200"
                     width="51"
@@ -235,17 +224,16 @@ const Hero = () => {
                 </p>
 
                 <div className="mt-5">
-                 <Image src={Unisys}/>
+                  <Image src={Unisys} />
                 </div>
-              </div> 
-
+              </div>
             </div>
           </div>
 
           <div className="relative ms-4">
             <Image
-              className="ml-12 rounded-md w-5/6 h-5/6"
-              src={Logo}
+              className="ml-2 rounded-md w-100% h-5/6"
+              src={HeroImg}
               alt="Image Description"
             />
           </div>
@@ -253,6 +241,6 @@ const Hero = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Hero
+export default Hero;

@@ -19,6 +19,11 @@ module.exports = {
       textColor: {
         foreground: "rgb(0, 0, 0)",
       },
+      colors: {
+        customGreen: "#dbfff6",
+        customDarkGreen : "#5DE694",
+        customBrown: "#19211d",
+      },
     },
   },
   plugins: [require("daisyui")],
