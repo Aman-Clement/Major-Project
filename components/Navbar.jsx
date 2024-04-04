@@ -28,7 +28,7 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/translate"
                 className="block py-2 px-3 text-customGreen rounded md:hover:bg-transparent md:p-0 dark:border-gray-700"
               >
                 Translator
