@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="mb-1">
             <span className="text-black font-medium">Read about</span>
             <a
-              href="https://flowbite.com/"
+              href="#"
               className="hover:underline text-black font-bold"
             >
               {" "}
@@ -24,7 +24,7 @@ const Footer = () => {
                 <h2 class="mb-6 text-sm font-bold text-gray-900">Questions?</h2>
                 <ul class="text-black font-medium">
                   <li className="mb-1">
-                    <a href="https://flowbite.com/" class="hover:underline">
+                    <a href="#" class="hover:underline">
                       FAQ
                     </a>
                   </li>
@@ -45,7 +45,7 @@ const Footer = () => {
                 <ul class="text-black font-medium">
                   <li className="mb-1">
                     <a
-                      href="https://github.com/themesberg/flowbite"
+                      href="#"
                       class="hover:underline "
                     >
                       Terms of Use
@@ -68,7 +68,7 @@ const Footer = () => {
               </div>
             </div>
             <div class="mb-6 md:mb-0">
-              <a href="https://flowbite.com/" class="flex items-center">
+              <a href="#" class="flex items-center">
                 <Image src={UnoT} />
               </a>
             </div>
@@ -78,7 +78,7 @@ const Footer = () => {
           <div class="sm:flex sm:items-center sm:justify-between">
             <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2024{" "}
-              <a href="https://flowbite.com/" class="hover:underline">
+              <a href="#" class="hover:underline">
                 UNO
               </a>
               . All Rights Reserved.
