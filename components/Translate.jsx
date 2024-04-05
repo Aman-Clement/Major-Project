@@ -6,6 +6,7 @@ import { useState } from "react";
 const Translate = () => {
   const [selectedSourceLanguage, setSelectedSourceLanguage] = useState("");
   const [selectedTargetLanguage, setSelectedTargetLanguage] = useState("");
+  const [sourceText, setSourceText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
 
   const handleLanguageChange = (event, languageType) => {
@@ -20,10 +21,25 @@ const Translate = () => {
 
   async function AtoB (){
     console.log("AtoB function called!");
-    const translatedText = await fetch(
-      `http://127.0.0.1:5000/translate/to/${selectedSourceLanguage}/${selectedTargetLanguage}`
-    );
-    setTranslatedText(translatedText);
+const response = await fetch(
+  `http://127.0.0.1:5000/translate/${selectedSourceLanguage}/to/${selectedTargetLanguage}`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text: sourceText }),
+  }
+);
+    console.log("recieved",response)
+    if (response.ok) {
+      const data = await response.text(); // Get the response body as text
+      console.log("received data", data);
+      setTranslatedText(data); // Set the translated text to the state variable
+    } else {
+      console.error("Failed to fetch translation:", response.statusText);
+      // Handle error condition if needed
+    }
   } 
 
   return (
@@ -40,31 +56,33 @@ const Translate = () => {
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
             >
               <option value="">Select Source Language</option>
-              <option value="en">English</option>
-              <option value="hi">Hindi</option>
-              <option value="mr">Marathi</option>
-              <option value="es">Spanish</option>
-              <option value="fr">French</option>
-              <option value="ar">Arabic</option>
-              <option value="zh">Chinese</option>
-              <option value="pt">Portuguese</option>
-              <option value="ja">Japanese</option>
-              <option value="de">German</option>
-              <option value="it">Italian</option>
-              <option value="ko">Korean</option>
-              <option value="tr">Turkish</option>
-              <option value="vi">Vietnamese</option>
-              <option value="th">Thai</option>
-              <option value="pl">Polish</option>
-              <option value="uk">Ukrainian</option>
-              <option value="bn">Bengali</option>
-              <option value="bn">Kannada</option>
-              <option value="bn">Tamil</option>
+              <option value="english">English</option>
+              <option value="hindi">Hindi</option>
+              <option value="marathi">Marathi</option>
+              <option value="spanish">Spanish</option>
+              <option value="french">French</option>
+              <option value="arabic">Arabic</option>
+              <option value="chinese">Chinese</option>
+              <option value="portuguese">Portuguese</option>
+              <option value="japanese">Japanese</option>
+              <option value="german">German</option>
+              <option value="italian">Italian</option>
+              <option value="korean">Korean</option>
+              <option value="turkish">Turkish</option>
+              <option value="vietnamese">Vietnamese</option>
+              <option value="thai">Thai</option>
+              <option value="polish">Polish</option>
+              <option value="ykrainian">Ukrainian</option>
+              <option value="bengali">Bengali</option>
+              <option value="kannada">Kannada</option>
+              <option value="tamil">Tamil</option>
             </select>
 
             <textarea
               id="message"
               rows="10"
+              value={sourceText}
+              onChange={(e) => setSourceText(e.target.value)}
               className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
               placeholder="Enter text here..."
               sx={"height: auto; resize: vertical;"}
@@ -76,26 +94,26 @@ const Translate = () => {
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
             >
               <option value="">Select Target Language</option>
-              <option value="en">English</option>
-              <option value="hi">Hindi</option>
-              <option value="mr">Marathi</option>
-              <option value="es">Spanish</option>
-              <option value="fr">French</option>
-              <option value="ar">Arabic</option>
-              <option value="zh">Chinese</option>
-              <option value="pt">Portuguese</option>
-              <option value="ja">Japanese</option>
-              <option value="de">German</option>
-              <option value="it">Italian</option>
-              <option value="ko">Korean</option>
-              <option value="tr">Turkish</option>
-              <option value="vi">Vietnamese</option>
-              <option value="th">Thai</option>
-              <option value="pl">Polish</option>
-              <option value="uk">Ukrainian</option>
-              <option value="bn">Bengali</option>
-              <option value="bn">Kannada</option>
-              <option value="bn">Tamil</option>
+              <option value="english">English</option>
+              <option value="hindi">Hindi</option>
+              <option value="marathi">Marathi</option>
+              <option value="spanish">Spanish</option>
+              <option value="french">French</option>
+              <option value="arabic">Arabic</option>
+              <option value="chinese">Chinese</option>
+              <option value="portuguese">Portuguese</option>
+              <option value="japanese">Japanese</option>
+              <option value="german">German</option>
+              <option value="italian">Italian</option>
+              <option value="korean">Korean</option>
+              <option value="turkish">Turkish</option>
+              <option value="vietnamese">Vietnamese</option>
+              <option value="thai">Thai</option>
+              <option value="polish">Polish</option>
+              <option value="ykrainian">Ukrainian</option>
+              <option value="bengali">Bengali</option>
+              <option value="kannada">Kannada</option>
+              <option value="tamil">Tamil</option>
             </select>
 
             <div
@@ -115,6 +133,8 @@ const Translate = () => {
             <textarea
               id="translatedmessage"
               rows="15"
+              value={translatedText} // Bind the value of the textarea to the translatedText state variable
+              onChange={(e) => setTranslatedText(e.target.value)} // Update the state variable on change
               className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
               placeholder="Translated Message..."
               sx={"height: auto; resize: vertical;"}

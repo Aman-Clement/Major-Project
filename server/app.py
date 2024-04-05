@@ -2,9 +2,11 @@ from flask import Flask, request
 from g4f.client import Client
 from translator import get_llm_response
 from flask_caching import Cache
+from flask_cors import CORS
 import re
 
 app = Flask(__name__)
+CORS(app)
 
 llm_client = Client()
 
