@@ -89,7 +89,7 @@ const response = await fetch(
 
             <textarea
               id="message"
-              rows="10"
+              rows="15"
               value={sourceText}
               onChange={(e) => setSourceText(e.target.value)}
               className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
@@ -97,7 +97,23 @@ const response = await fetch(
               sx={"height: auto; resize: vertical;"}
             ></textarea>
 
-            <select
+            <button
+              onClick={() => {
+                console.log("Translate button clicked!");
+                AtoB();
+              }}
+              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+            >
+              Translate
+            </button>
+
+ 
+          </div>
+        </div>
+
+        <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="card-body items-center text-center">
+        <select
               id="target_language"
               onChange={(e) => handleLanguageChange(e, "target")}
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
@@ -125,20 +141,6 @@ const response = await fetch(
               <option value="tamil">Tamil</option>
             </select>
 
-            <button
-              onClick={() => {
-                console.log("Translate button clicked!");
-                AtoB();
-              }}
-              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            >
-              Translate
-            </button>
-          </div>
-        </div>
-
-        <div className="card w-96 bg-base-100 shadow-xl">
-        <div className="card-body items-center text-center">
           <textarea
             id="translatedmessage"
             rows="15"
