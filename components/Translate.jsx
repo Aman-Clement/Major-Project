@@ -42,6 +42,15 @@ const response = await fetch(
     }
   } 
 
+  const copyTranslatedText = () => {
+    const textarea = document.getElementById("translatedmessage");
+    if (textarea) {
+      textarea.select();
+      document.execCommand("copy");
+      alert("Text copied to clipboard!");
+    }
+  };
+
   return (
     <div>
       <div className="text-center text-3xl font-bold text-customGreen">
@@ -129,24 +138,23 @@ const response = await fetch(
         </div>
 
         <div className="card w-96 bg-base-100 shadow-xl">
-          <div className="card-body items-center text-center">
-            <textarea
-              id="translatedmessage"
-              rows="15"
-              value={translatedText} // Bind the value of the textarea to the translatedText state variable
-              onChange={(e) => setTranslatedText(e.target.value)} // Update the state variable on change
-              className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              placeholder="Translated Message..."
-              sx={"height: auto; resize: vertical;"}
-            ></textarea>
-            <a
-              href="#translate"
-              className="py-3 mt-1 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            >
-              Copy
-            </a>
-          </div>
+        <div className="card-body items-center text-center">
+          <textarea
+            id="translatedmessage"
+            rows="15"
+            value={translatedText}
+            onChange={(e) => setTranslatedText(e.target.value)}
+            className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+            placeholder="Translated Message..."
+            style={{ height: "auto", resize: "vertical" }}>
+            </textarea>
+          <button
+            onClick={copyTranslatedText}
+            className="py-3 mt-1 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Copy
+          </button>
         </div>
+      </div>
       </div>
     </div>
   );
