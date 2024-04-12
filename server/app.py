@@ -42,8 +42,6 @@ def translate(source, target):
     original_emotions = get_emotion(eng_source)
     translated_emotions = get_emotion(eng_target)
     score = is_similar(original_emotions, translated_emotions)
-    print(eng_source, eng_target)
-    print(score)
     attempts = 0
     while score < 0.70:
         response = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
@@ -53,8 +51,6 @@ def translate(source, target):
         translated_emotions = get_emotion(eng_target)
         score = is_similar(original_emotions, translated_emotions)
         attempts += 1
-        print(eng_source, eng_target)
-        print(score)
     return {"response":response, "score":score, "attempts":attempts}
 
 @app.route("/detect-emotions/<source>", methods=['POST'])
