@@ -7,21 +7,36 @@ const Translate = () => {
   const [selectedTargetLanguage, setSelectedTargetLanguage] = useState("");
   const [sourceText, setSourceText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
-
+  const [sourceEmotion, setSourceEmotion] = useState([]);
+  const [translatedEmotion, setTranslatedEmotion] = useState([]);
+  const [similarityScore, setSimilarityScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
   const handleLanguageChange = (event, languageType) => {
     if (languageType === "source") {
       console.log("change");
       setSelectedSourceLanguage(event.target.value);
       setTranslatedText("");
+      setSimilarityScore(0);
+      setAttempts(0);
+      setSourceEmotion([]);
+      setTranslatedEmotion([]);
     } else {
       console.log("change");
       setSelectedTargetLanguage(event.target.value);
       setTranslatedText("");
+      setSimilarityScore(0);
+      setAttempts(0);
+      setSourceEmotion([]);
+      setTranslatedEmotion([]);
     }
   };
 
   async function AtoB() {
     setTranslatedText("");
+    setSourceEmotion([]);
+    setTranslatedEmotion([]);
+    setSimilarityScore(0);
+    setAttempts(0);
     console.log("AtoB function called!");
     const response = await fetch(
       `http://127.0.0.1:5000/translate/${selectedSourceLanguage}/to/${selectedTargetLanguage}`,
@@ -33,13 +48,41 @@ const Translate = () => {
         body: sourceText.toString(),
       }
     );
-    console.log("recieved", response);
+    console.log("received", response);
     if (response.ok) {
-      const data = await response.text();
+      const data = await response.json();
       console.log("received data", data);
-      setTranslatedText(data);
+      detectEmotion(sourceText, setSourceEmotion, selectedSourceLanguage);
+      detectEmotion(
+        data.response,
+        setTranslatedEmotion,
+        selectedTargetLanguage
+      );
+      setTranslatedText(data.response);
+      setSimilarityScore(data.score);
+      setAttempts(data.attempts);
     } else {
       console.error("Failed to fetch translation:", response.statusText);
+    }
+  }
+
+  async function detectEmotion(text, setEmotion, language) {
+    console.log("detectEmotion function called!");
+    const response = await fetch(
+      `http://127.0.0.1:5000/detect-emotions/${language}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setEmotion(data);
+    } else {
+      console.error("Failed to detect emotion:", response.statusText);
     }
   }
 
@@ -52,12 +95,26 @@ const Translate = () => {
     }
   };
 
+  const renderEmotion = (emotion) => {
+    return (
+      <div>
+        {emotion.map((item, index) => (
+          <div key={index} className="flex items-center mt-2">
+            <span className="mr-2">{item.emoji}</span>
+            <span className="mr-2">{item.label}</span>
+            <span>{item.score}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div>
       <div className="text-center text-3xl font-bold text-customGreen">
-        Bi-Directional Translate
+        Bi-Directional Translation
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mt-4">
         <div className="card w-96 bg-base-100 shadow-xl">
           <div className="card-body items-center text-center">
             <select
@@ -111,7 +168,6 @@ const Translate = () => {
               placeholder="Enter text here..."
               sx={"height: auto; resize: vertical;"}
             ></textarea>
-
             <button
               onClick={() => {
                 console.log("Translate button clicked!");
@@ -121,6 +177,10 @@ const Translate = () => {
             >
               Translate
             </button>
+            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300">
+              <div className="font-bold mb-2">Source Emotions:</div>
+              {renderEmotion(sourceEmotion)}
+            </div>
           </div>
         </div>
 
@@ -183,7 +243,26 @@ const Translate = () => {
             >
               Copy
             </button>
+            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300">
+              <div className="font-bold mb-2">Translated Emotions:</div>
+              {renderEmotion(sourceEmotion)}
+            </div>
           </div>
+        </div>
+      </div>
+      <div className="text-center text-2xl font-bold text-customGreen m-4">
+        Translation Summary
+      </div>
+      <div className="flex justify-center mb-4">
+        <div className="flex flex-col mr-8">
+          <span className="text-lg font-semibold text-customGreen">
+            Similarity Score: {similarityScore}%
+          </span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-lg font-semibold text-customGreen">
+            Number of Attempts: {attempts}
+          </span>
         </div>
       </div>
     </div>
