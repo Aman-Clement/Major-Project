@@ -42,23 +42,25 @@ emotion_to_emoji = {
 
 def get_emotion(text):
     emotions = emotion(text)[0]
-    sorted_emotions = sorted(emotions, key=lambda x: x['score'], reverse=True)
+    sorted_emotions = sorted(emotions, key=lambda x: x["score"], reverse=True)
     prominent_emotions = sorted_emotions[:3]
     for item in prominent_emotions:
-        emoji = emotion_to_emoji.get(item['label'], None)
-        item['emoji'] = emoji
+        emoji = emotion_to_emoji.get(item["label"], None)
+        item["emoji"] = emoji
+        item["score"] = round(item['score']) * 100
+        item["label"] = item["label"].capitalize()
     return prominent_emotions
 
 def is_similar(original_emotion, translated_emotion):
     all_labels = set()
     for emotion_dict in original_emotion + translated_emotion:
-        all_labels.add(emotion_dict['label'])
+        all_labels.add(emotion_dict["label"])
     
     original_vector = []
     translated_vector = []
     for label in all_labels:
-        original_score = next((emotion_dict['score'] for emotion_dict in original_emotion if emotion_dict['label'] == label), 0)
-        translated_score = next((emotion_dict['score'] for emotion_dict in translated_emotion if emotion_dict['label'] == label), 0)
+        original_score = next((emotion_dict["score"] for emotion_dict in original_emotion if emotion_dict["label"] == label), 0)
+        translated_score = next((emotion_dict["score"] for emotion_dict in translated_emotion if emotion_dict["label"] == label), 0)
         original_vector.append(original_score)
         translated_vector.append(translated_score)
 
