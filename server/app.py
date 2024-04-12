@@ -43,13 +43,15 @@ def translate(source, target):
     translated_emotions = get_emotion(eng_target)
     score = is_similar(original_emotions, translated_emotions)
     attempts = 0
-    while score < 0.70:
+    print(eng_source, eng_target, score)
+    while score < 0.70 and attempts<6:
         response = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
         eng_source = to_english(source, text)
         eng_target = to_english(target, response)
         original_emotions = get_emotion(eng_source)
         translated_emotions = get_emotion(eng_target)
         score = is_similar(original_emotions, translated_emotions)
+        print(eng_source, eng_target, score)
         attempts += 1
     return {"response":response, "score":score, "attempts":attempts}
 
