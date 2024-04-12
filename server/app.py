@@ -27,8 +27,13 @@ def health_check():
 @app.route("/translate/<source>/to/<target>", methods=['POST'])
 def translate(source, target):
     text = request.data.decode('utf-8')
-    result = get_llm_response(llm_client, source, target, text)
-    result = re.sub(r'[#%&$^*`]+', '', result)
-    result.replace('Translated text: ', '')
-    result.replace(text, '')
-    return result
+    result = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
+    result = result.split("\n")
+    final = ""
+    for line in result:
+        if line.startswith("#") or "translated" in line.lower()  or "translation" in line.lower()  or "translates" in line.lower() or line == "" or target in line.lower() or source in line.lower():
+            pass
+        else:
+            final = final + line.replace("*", "") + "\n"
+    
+    return final

@@ -1,24 +1,17 @@
-
 def get_llm_response(llm_client, text, source_lang, target_lang):
-    prompt = f"""Translate the following sentence into {target_lang} from {source_lang} while preserving the emotional tone and context. Emojis should be added appropriately to convey the emotions effectively. Ensure the translation sounds smooth and maintains a conversational tone.
-
-Original Sentence: "{text}"
-
-
-Instructions for GPT-3.5:
-
-1. Translate the sentence into {target_lang} while keeping the emotional tone and context intact.
-2. Add suitable emojis to express the emotions conveyed in the original sentence.
-3. Ensure the translated text sounds natural and maintains a conversational tone.
-4. Return only the translated text without any additional comments and content. Do not include "Translated Text" heading.
-5. Do not format the result."""
-    
+    prompt = f"""You will be provided with a sentence in {source_lang}, and your task is to translate it into {target_lang}. Remember to only give the translated sentence with no additional information. Also add emojis to the text according to the emotion of the text. DO NOT GIVE ADD ANY OTHER ADDITIONAL INFORMATION."""
+    print(prompt)
     completion = llm_client.chat.completions.create(
             model="gpt-3.5-turbo",  
             messages=[
-                {"role": "user", "content": prompt}
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": text}
+                
             ],
-            temperature=0
+            temperature=0.7,
+            top_p=1
         )
+
+    print(completion.choices[0].message.content)
     return completion.choices[0].message.content
 
