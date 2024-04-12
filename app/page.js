@@ -32,7 +32,7 @@ export default function Home() {
           <div className="mb-16">
             <Hero />
           </div>
-          <div class="grid grid-cols-2 gap-72">
+          <div className="grid grid-cols-2 gap-72">
             <div className="card w-96 bg-customBrown shadow-xl">
               <div className="card-body items-center text-center">
                 <h2 className="card-title font-thin text-customGreen">
@@ -41,7 +41,7 @@ export default function Home() {
                 <h3 className="font-bold text-customGreen">
                   Common Communication
                 </h3>
-                <Image src={Madam} width={512} height={512} />
+                <Image src={Madam} alt = "Image" width={512} height={512} />
               </div>
             </div>
             <div className="card w-96 bg-customBrown shadow-xl">
@@ -52,7 +52,7 @@ export default function Home() {
                 <h3 className="font-bold text-customGreen">
                   Anytime, Anywhere
                 </h3>
-                <Image src={Hi} width={256} height={256} />
+                <Image src={Hi} alt = "Image" width={256} height={256} />
               </div>
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function Home() {
                 href="#"
               >
                 Download Extension
-                <Image src={download} width={32} height={32} />
+                <Image src={download} alt = "Download Icon" width={32} height={32} />
               </a>
             </div>
           </div>

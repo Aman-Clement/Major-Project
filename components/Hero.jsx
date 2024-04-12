@@ -31,7 +31,7 @@ const Hero = () => {
                 href="#"
               >
                 Download Extension
-                <Image src={download} />
+                <Image src={download} alt = "Download Icon"/>
               </a>
             </div>
 
@@ -224,7 +224,7 @@ const Hero = () => {
                 </p>
 
                 <div className="mt-5">
-                  <Image src={Unisys} />
+                  <Image src={Unisys} alt = "Unisys Logo"/>
                 </div>
               </div>
             </div>
@@ -234,7 +234,7 @@ const Hero = () => {
             <Image
               className="ml-2 rounded-md w-100% h-5/6"
               src={HeroImg}
-              alt="Image Description"
+              alt="Hero Image"
             />
           </div>
         </div>

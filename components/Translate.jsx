@@ -28,17 +28,16 @@ const response = await fetch(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ text: sourceText }),
+    body:sourceText.toString(),
   }
 );
     console.log("recieved",response)
     if (response.ok) {
-      const data = await response.text(); // Get the response body as text
+      const data = await response.text();
       console.log("received data", data);
-      setTranslatedText(data); // Set the translated text to the state variable
+      setTranslatedText(data); 
     } else {
       console.error("Failed to fetch translation:", response.statusText);
-      // Handle error condition if needed
     }
   } 
 
