@@ -25,6 +25,7 @@ def health_check():
     return 'API is running'
 
 @app.route("/translate/<source>/to/<target>", methods=['POST'])
+@cache.cached(timeout=3000, query_string=True)
 def translate(source, target):
     text = request.data.decode('utf-8')
     result = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
