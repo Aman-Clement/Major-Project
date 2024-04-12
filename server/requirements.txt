@@ -16,7 +16,7 @@ Flask==3.0.2
 Flask-Caching==2.1.0
 flask_cors==4.0.0
 frozenlist==1.4.1
-g4f==0.2.7.2
+g4f==0.2.9.4
 gunicorn==21.2.0
 h11==0.14.0
 idna==3.6
