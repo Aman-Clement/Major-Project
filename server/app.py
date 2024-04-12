@@ -3,7 +3,8 @@ from g4f.client import Client
 from translator import get_llm_response
 from flask_caching import Cache
 from flask_cors import CORS
-import re
+from emodetect import *
+
 
 app = Flask(__name__)
 CORS(app)
@@ -24,17 +25,42 @@ def home():
 def health_check():
     return 'API is running'
 
+def to_english(lang, text):
+    if lang!="english":
+        eng_text =get_llm_response(llm_client, text, lang.capitalize(), "English")
+    else:
+        eng_text = text
+    return eng_text
+    
 @app.route("/translate/<source>/to/<target>", methods=['POST'])
-@cache.cached(timeout=3000, query_string=True)
+# @cache.cached(timeout=3000)
 def translate(source, target):
     text = request.data.decode('utf-8')
-    result = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
-    result = result.split("\n")
-    final = ""
-    for line in result:
-        if line.startswith("#") or "translated" in line.lower()  or "translation" in line.lower()  or "translates" in line.lower() or line == "" or target in line.lower() or source in line.lower():
-            pass
-        else:
-            final = final + line.replace("*", "") + "\n"
-    
-    return final
+    response = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
+    eng_source = to_english(source, text)
+    eng_target = to_english(target, response)
+    original_emotions = get_emotion(eng_source)
+    translated_emotions = get_emotion(eng_target)
+    score = is_similar(original_emotions, translated_emotions)
+    print(eng_source, eng_target)
+    print(score)
+    attempts = 0
+    while score < 0.70:
+        response = get_llm_response(llm_client, text, source.capitalize(), target.capitalize())
+        eng_source = to_english(source, text)
+        eng_target = to_english(target, response)
+        original_emotions = get_emotion(eng_source)
+        translated_emotions = get_emotion(eng_target)
+        score = is_similar(original_emotions, translated_emotions)
+        attempts += 1
+        print(eng_source, eng_target)
+        print(score)
+    return {"response":response, "score":score, "attempts":attempts}
+
+@app.route("/detect-emotions/<source>", methods=['POST'])
+# @cache.cached(timeout=3000)
+def detect_emotions(source):
+    text = request.data.decode('utf-8')
+    text = to_english(source, text)
+    emotions = get_emotion(text)
+    return emotions

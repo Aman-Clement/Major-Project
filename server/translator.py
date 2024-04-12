@@ -1,10 +1,21 @@
 import g4f
 from undetected_chromedriver import Chrome, ChromeOptions
+
 options = ChromeOptions()
 options.add_argument("--incognito")
 webdriver = Chrome(options=options, headless=True)
+
+def strip_answer(text, tag=""):
+    text = text.strip()
+    if tag!="":
+        start = text.find(f"<{tag}>")
+        end = text.find(f"</{tag}>")
+        text = text[start+len(f"<{tag}>"):end].strip()
+        text = text.replace("*", "")
+    return text
+
 def get_llm_response(llm_client, text, source_lang, target_lang):
-    prompt = f"""You will be provided with a sentence in {source_lang}, and your task is to translate it into {target_lang}. Remember to only give the translated sentence with no additional information. Also add emojis to the text according to the emotion of the text. DO NOT GIVE ADD ANY OTHER ADDITIONAL INFORMATION."""
+    prompt = f"""You are given a block of text in {source_lang}, understand and translate the text and the sentence in {target_lang} preserving the semantics of {target_lang}, ensure that the output is grammatically coherent. Add emojis to the translated text based on the detected emotion. Enclose ONLY the translated text within <Text> </Text> tags, The text is given below:"""
     completion = llm_client.chat.completions.create(
             model="gpt-3.5-turbo",  
             messages=[
@@ -13,7 +24,8 @@ def get_llm_response(llm_client, text, source_lang, target_lang):
                 
             ],
             temperature=0.7,
-            top_p=1
+            top_p=0.1
         )
-
-    return completion.choices[0].message.content
+    
+    result = strip_answer(completion.choices[0].message.content,"Text")
+    return result
