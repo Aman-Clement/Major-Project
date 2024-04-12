@@ -1,3 +1,8 @@
+import g4f
+from undetected_chromedriver import Chrome, ChromeOptions
+options = ChromeOptions()
+options.add_argument("--incognito")
+webdriver = Chrome(options=options, headless=True)
 def get_llm_response(llm_client, text, source_lang, target_lang):
     prompt = f"""You will be provided with a sentence in {source_lang}, and your task is to translate it into {target_lang}. Remember to only give the translated sentence with no additional information. Also add emojis to the text according to the emotion of the text. DO NOT GIVE ADD ANY OTHER ADDITIONAL INFORMATION."""
     completion = llm_client.chat.completions.create(
@@ -12,4 +17,3 @@ def get_llm_response(llm_client, text, source_lang, target_lang):
         )
 
     return completion.choices[0].message.content
-
