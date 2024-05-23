@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Arrows from "@/assets/comps/arrows.svg";
 import Image from "next/image";
@@ -13,6 +13,8 @@ const Translate = () => {
   const [translatedEmotion, setTranslatedEmotion] = useState([]);
   const [similarityScore, setSimilarityScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
+  const [switchingLanguages, setSwitchingLanguages] = useState(false);
+
   const handleLanguageChange = (event, languageType) => {
     if (languageType === "source") {
       console.log("change");
@@ -68,6 +70,27 @@ const Translate = () => {
     }
   }
 
+  const SwitchLanguages = () => {
+    const tempLanguage = selectedSourceLanguage;
+    setSelectedSourceLanguage(selectedTargetLanguage);
+    setSelectedTargetLanguage(tempLanguage);
+    setSwitchingLanguages(true);
+  };
+
+  useEffect(() => {
+    if (switchingLanguages) {
+      setTranslatedText('');
+      setSimilarityScore(0);
+      setAttempts(0);
+      setSourceEmotion([]);
+      setTranslatedEmotion([]);
+      setSwitchingLanguages(false);
+      console.log(selectedSourceLanguage)
+      console.log(selectedTargetLanguage)
+    }
+  }, [selectedSourceLanguage, selectedTargetLanguage, switchingLanguages]);
+
+
   async function detectEmotion(text, setEmotion, language) {
     console.log("detectEmotion function called!");
     const response = await fetch(
@@ -121,6 +144,7 @@ const Translate = () => {
       <select
               id="source_language"
               onChange={(e) => handleLanguageChange(e, "source")}
+              value={selectedSourceLanguage}
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
             >
               <option value="">Select Source Language</option>
@@ -161,12 +185,22 @@ const Translate = () => {
       </select>
       </div>
       <div className="m-4">
-      <Image src={Arrows} width={32} height={32} alt="Translate image" />
+      <button
+              onClick={() => {
+                console.log("Switch button clicked!");
+                SwitchLanguages();
+              }}
+              className="inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+            >
+              <Image src={Arrows} width={32} height={32} alt="Translate image" />
+            </button>
+      
       </div>
       <div className="w-80 mr-8">
       <select
               id="target_language"
               onChange={(e) => handleLanguageChange(e, "target")}
+              value={selectedTargetLanguage}
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
             >
               <option value="">Select Target Language</option>
