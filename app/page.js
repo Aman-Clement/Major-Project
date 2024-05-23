@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen mx-auto px-4 pt-8 pb-16">
+    <div className="flex flex-col min-h-screen mx-auto pt-10">
       <div className="flex-grow">
         <Head>
           <title>{metadata.title}</title>

@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import Arrows from "@/assets/comps/arrows.svg";
+import Image from "next/image";
 
 const Translate = () => {
   const [selectedSourceLanguage, setSelectedSourceLanguage] = useState("");
@@ -114,10 +116,9 @@ const Translate = () => {
       <div className="text-center text-3xl font-bold text-customGreen">
         Bi-Directional Translation
       </div>
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div className="card w-96 bg-base-100 shadow-xl">
-          <div className="card-body items-center text-center">
-            <select
+      <div className="flex flex-row items-center mt-4">
+        <div className="w-80 ml-8">
+      <select
               id="source_language"
               onChange={(e) => handleLanguageChange(e, "source")}
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
@@ -157,36 +158,13 @@ const Translate = () => {
               <option value="thai">Thai</option>
               <option value="polish">Polish</option>
               <option value="ukrainian">Ukrainian</option>
-            </select>
-
-            <textarea
-              id="message"
-              rows="15"
-              value={sourceText}
-              onChange={(e) => setSourceText(e.target.value)}
-              className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              placeholder="Enter text here..."
-              sx={"height: auto; resize: vertical;"}
-            ></textarea>
-            <button
-              onClick={() => {
-                console.log("Translate button clicked!");
-                AtoB();
-              }}
-              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            >
-              Translate
-            </button>
-            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300">
-              <div className="font-bold mb-2">Source Emotions:</div>
-              {renderEmotion(sourceEmotion)}
-            </div>
-          </div>
-        </div>
-
-        <div className="card w-96 bg-base-100 shadow-xl">
-          <div className="card-body items-center text-center">
-            <select
+      </select>
+      </div>
+      <div className="m-4">
+      <Image src={Arrows} width={32} height={32} alt="Translate image" />
+      </div>
+      <div className="w-80 mr-8">
+      <select
               id="target_language"
               onChange={(e) => handleLanguageChange(e, "target")}
               className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
@@ -227,10 +205,40 @@ const Translate = () => {
               <option value="polish">Polish</option>
               <option value="ukrainian">Ukrainian</option>
             </select>
-
+      </div>
+      </div>
+      <div className="flex flex-row items-center mt-4">
+        <div className="card rounded-none w-96 ">
+          <div className="card-body items-center text-center">
+            <textarea
+              id="message"
+              rows="7"
+              value={sourceText}
+              onChange={(e) => setSourceText(e.target.value)}
+              className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+              placeholder="Enter text here..."
+              sx={"height: auto; resize: vertical;"}
+            ></textarea>
+            <button
+              onClick={() => {
+                console.log("Translate button clicked!");
+                AtoB();
+              }}
+              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+            >
+              Translate
+            </button>
+            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300">
+              <div className="font-bold mb-2">Source Emotions:</div>
+              {renderEmotion(sourceEmotion)}
+            </div>
+          </div>
+        </div>
+        <div className="card rounded-none w-96">
+          <div className="card-body items-center text-center">
             <textarea
               id="translatedmessage"
-              rows="15"
+              rows="7"
               value={translatedText}
               onChange={(e) => setTranslatedText(e.target.value)}
               className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
@@ -239,7 +247,7 @@ const Translate = () => {
             ></textarea>
             <button
               onClick={copyTranslatedText}
-              className="py-3 mt-1 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
             >
               Copy
             </button>
