@@ -15,7 +15,7 @@ def strip_answer(text, tag=""):
     return text
 
 def get_llm_response(llm_client, text, source_lang, target_lang):
-    prompt = f"""You are given a block of text in {source_lang}, understand and translate the text and the sentence in {target_lang} preserving the semantics of {target_lang}, ensure that the output is grammatically coherent. Add emojis to the translated text based on the detected emotion. Enclose ONLY the translated text within <Text> </Text> tags, The text is given below:"""
+    prompt = f"""You are given a block of text in {source_lang}, understand and translate the text and the sentence in {target_lang} preserving the semantics of {target_lang}, ensure that the output is grammatically coherent. Please emojis to the translated text based on the detected emotion. Enclose ONLY the translated text within <Text> </Text> tags, The text is given below:"""
     completion = llm_client.chat.completions.create(
             model="gpt-3.5-turbo",  
             messages=[
