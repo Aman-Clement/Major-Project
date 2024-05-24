@@ -220,12 +220,8 @@ const Hero = () => {
                 </div> */}
 
                 <p className="mt-3 text-sm text-gray-800 dark:text-gray-200">
-                  <span className="font-bold">In Collaboration with</span>
+                  <span className="font-bold">In Collaboration with Unisys</span>
                 </p>
-
-                <div className="mt-5">
-                  <Image src={Unisys} alt = "Unisys Logo"/>
-                </div>
               </div>
             </div>
           </div>
