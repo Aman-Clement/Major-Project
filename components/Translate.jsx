@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Arrows from "@/assets/comps/arrows.svg";
+import Arrows from "@/assets/comps/rev-icon.svg";
 import Image from "next/image";
+import CopyIcon from "@/assets/comps/copy-icon.svg";
 
 const Translate = () => {
   const [selectedSourceLanguage, setSelectedSourceLanguage] = useState("");
@@ -79,17 +80,16 @@ const Translate = () => {
 
   useEffect(() => {
     if (switchingLanguages) {
-      setTranslatedText('');
+      setTranslatedText("");
       setSimilarityScore(0);
       setAttempts(0);
       setSourceEmotion([]);
       setTranslatedEmotion([]);
       setSwitchingLanguages(false);
-      console.log(selectedSourceLanguage)
-      console.log(selectedTargetLanguage)
+      console.log(selectedSourceLanguage);
+      console.log(selectedTargetLanguage);
     }
   }, [selectedSourceLanguage, selectedTargetLanguage, switchingLanguages]);
-
 
   async function detectEmotion(text, setEmotion, language) {
     console.log("detectEmotion function called!");
@@ -111,13 +111,9 @@ const Translate = () => {
     }
   }
 
-  const copyTranslatedText = () => {
-    const textarea = document.getElementById("translatedmessage");
-    if (textarea) {
-      textarea.select();
-      document.execCommand("copy");
-      alert("Text copied to clipboard!");
-    }
+  const copyText = (text) => {
+    navigator.clipboard.writeText(text);
+    alert("Text copied to clipboard!");
   };
 
   const renderEmotion = (emotion) => {
@@ -141,157 +137,169 @@ const Translate = () => {
       </div>
       <div className="flex flex-row items-center mt-4">
         <div className="w-80 ml-8">
-      <select
-              id="source_language"
-              onChange={(e) => handleLanguageChange(e, "source")}
-              value={selectedSourceLanguage}
-              className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
-            >
-              <option value="">Select Source Language</option>
-              <option value="english">English</option>
-              <option value="hindi">Hindi</option>
-              <option value="marathi">Marathi</option>
-              <option value="bengali">Bengali</option>
-              <option value="telugu">Telugu</option>
-              <option value="tamil">Tamil</option>
-              <option value="urdu">Urdu</option>
-              <option value="gujarati">Gujarati</option>
-              <option value="kannada">Kannada</option>
-              <option value="malayalam">Malayalam</option>
-              <option value="punjabi">Punjabi</option>
-              <option value="odia">Odia</option>
-              <option value="assamese">Assamese</option>
-              <option value="nepali">Nepali</option>
-              <option value="konkani">Konkani</option>
-              <option value="manipuri">Manipuri (Meitei)</option>
-              <option value="maithili">Maithili</option>
-              <option value="santali">Santali</option>
-              <option value="kashmiri">Kashmiri</option>
-              <option value="sindhi">Sindhi</option>
-              <option value="spanish">Spanish</option>
-              <option value="french">French</option>
-              <option value="arabic">Arabic</option>
-              <option value="chinese">Chinese</option>
-              <option value="portuguese">Portuguese</option>
-              <option value="japanese">Japanese</option>
-              <option value="german">German</option>
-              <option value="italian">Italian</option>
-              <option value="korean">Korean</option>
-              <option value="turkish">Turkish</option>
-              <option value="vietnamese">Vietnamese</option>
-              <option value="thai">Thai</option>
-              <option value="polish">Polish</option>
-              <option value="ukrainian">Ukrainian</option>
-      </select>
+          <select
+            id="source_language"
+            onChange={(e) => handleLanguageChange(e, "source")}
+            value={selectedSourceLanguage}
+            className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
+          >
+            <option value="">Select Source Language</option>
+            <option value="english">English</option>
+            <option value="hindi">Hindi</option>
+            <option value="marathi">Marathi</option>
+            <option value="bengali">Bengali</option>
+            <option value="telugu">Telugu</option>
+            <option value="tamil">Tamil</option>
+            <option value="urdu">Urdu</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="kannada">Kannada</option>
+            <option value="malayalam">Malayalam</option>
+            <option value="punjabi">Punjabi</option>
+            <option value="odia">Odia</option>
+            <option value="assamese">Assamese</option>
+            <option value="nepali">Nepali</option>
+            <option value="konkani">Konkani</option>
+            <option value="manipuri">Manipuri (Meitei)</option>
+            <option value="maithili">Maithili</option>
+            <option value="santali">Santali</option>
+            <option value="kashmiri">Kashmiri</option>
+            <option value="sindhi">Sindhi</option>
+            <option value="spanish">Spanish</option>
+            <option value="french">French</option>
+            <option value="arabic">Arabic</option>
+            <option value="chinese">Chinese</option>
+            <option value="portuguese">Portuguese</option>
+            <option value="japanese">Japanese</option>
+            <option value="german">German</option>
+            <option value="italian">Italian</option>
+            <option value="korean">Korean</option>
+            <option value="turkish">Turkish</option>
+            <option value="vietnamese">Vietnamese</option>
+            <option value="thai">Thai</option>
+            <option value="polish">Polish</option>
+            <option value="ukrainian">Ukrainian</option>
+          </select>
+        </div>
+        <div className="m-4">
+          <button
+            onClick={() => {
+              console.log("Switch button clicked!");
+              SwitchLanguages();
+            }}
+            className="inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+          >
+            <Image src={Arrows} width={32} height={32} alt="Translate image" />
+          </button>
+        </div>
+        <div className="w-80 mr-8">
+          <select
+            id="target_language"
+            onChange={(e) => handleLanguageChange(e, "target")}
+            value={selectedTargetLanguage}
+            className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
+          >
+            <option value="">Select Target Language</option>
+            <option value="english">English</option>
+            <option value="hindi">Hindi</option>
+            <option value="marathi">Marathi</option>
+            <option value="bengali">Bengali</option>
+            <option value="telugu">Telugu</option>
+            <option value="tamil">Tamil</option>
+            <option value="urdu">Urdu</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="kannada">Kannada</option>
+            <option value="malayalam">Malayalam</option>
+            <option value="punjabi">Punjabi</option>
+            <option value="odia">Odia</option>
+            <option value="assamese">Assamese</option>
+            <option value="nepali">Nepali</option>
+            <option value="konkani">Konkani</option>
+            <option value="manipuri">Manipuri (Meitei)</option>
+            <option value="maithili">Maithili</option>
+            <option value="santali">Santali</option>
+            <option value="kashmiri">Kashmiri</option>
+            <option value="sindhi">Sindhi</option>
+            <option value="spanish">Spanish</option>
+            <option value="french">French</option>
+            <option value="arabic">Arabic</option>
+            <option value="chinese">Chinese</option>
+            <option value="portuguese">Portuguese</option>
+            <option value="japanese">Japanese</option>
+            <option value="german">German</option>
+            <option value="italian">Italian</option>
+            <option value="korean">Korean</option>
+            <option value="turkish">Turkish</option>
+            <option value="vietnamese">Vietnamese</option>
+            <option value="thai">Thai</option>
+            <option value="polish">Polish</option>
+            <option value="ukrainian">Ukrainian</option>
+          </select>
+        </div>
       </div>
-      <div className="m-4">
-      <button
-              onClick={() => {
-                console.log("Switch button clicked!");
-                SwitchLanguages();
-              }}
-              className="inline-flex justify-center items-center text-sm font-semibold rounded-lg border border-transparent text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            >
-              <Image src={Arrows} width={32} height={32} alt="Translate image" />
-            </button>
-      
-      </div>
-      <div className="w-80 mr-8">
-      <select
-              id="target_language"
-              onChange={(e) => handleLanguageChange(e, "target")}
-              value={selectedTargetLanguage}
-              className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300"
-            >
-              <option value="">Select Target Language</option>
-              <option value="english">English</option>
-              <option value="hindi">Hindi</option>
-              <option value="marathi">Marathi</option>
-              <option value="bengali">Bengali</option>
-              <option value="telugu">Telugu</option>
-              <option value="tamil">Tamil</option>
-              <option value="urdu">Urdu</option>
-              <option value="gujarati">Gujarati</option>
-              <option value="kannada">Kannada</option>
-              <option value="malayalam">Malayalam</option>
-              <option value="punjabi">Punjabi</option>
-              <option value="odia">Odia</option>
-              <option value="assamese">Assamese</option>
-              <option value="nepali">Nepali</option>
-              <option value="konkani">Konkani</option>
-              <option value="manipuri">Manipuri (Meitei)</option>
-              <option value="maithili">Maithili</option>
-              <option value="santali">Santali</option>
-              <option value="kashmiri">Kashmiri</option>
-              <option value="sindhi">Sindhi</option>
-              <option value="spanish">Spanish</option>
-              <option value="french">French</option>
-              <option value="arabic">Arabic</option>
-              <option value="chinese">Chinese</option>
-              <option value="portuguese">Portuguese</option>
-              <option value="japanese">Japanese</option>
-              <option value="german">German</option>
-              <option value="italian">Italian</option>
-              <option value="korean">Korean</option>
-              <option value="turkish">Turkish</option>
-              <option value="vietnamese">Vietnamese</option>
-              <option value="thai">Thai</option>
-              <option value="polish">Polish</option>
-              <option value="ukrainian">Ukrainian</option>
-            </select>
-      </div>
+      <div className="text-center mt-4">
+        <button
+          onClick={() => {
+            console.log("Translate button clicked!");
+            AtoB();
+          }}
+          className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+        >
+          Translate
+        </button>
       </div>
       <div className="flex flex-row items-center mt-4">
-        <div className="card rounded-none w-96 ">
-          <div className="card-body items-center text-center">
-            <textarea
-              id="message"
-              rows="7"
-              value={sourceText}
-              onChange={(e) => setSourceText(e.target.value)}
-              className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              placeholder="Enter text here..."
-              sx={"height: auto; resize: vertical;"}
-            ></textarea>
-            <button
-              onClick={() => {
-                console.log("Translate button clicked!");
-                AtoB();
-              }}
-              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            >
-              Translate
-            </button>
-            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300">
+        <div className="card rounded-none w-96">
+          <div className="card-body items-center text-center relative">
+            <div className="relative w-full">
+              <textarea
+                id="message"
+                rows="7"
+                value={sourceText}
+                onChange={(e) => setSourceText(e.target.value)}
+                className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                placeholder="Enter text here..."
+                style={{ height: "auto", resize: "vertical" }}
+              ></textarea>
+              <button
+                onClick={() => copyText(sourceText)}
+                className="absolute bottom-4 right-4 text-gray-600"
+              >
+                <Image src={CopyIcon} width={24} height={24} alt="Copy icon" />
+              </button>
+            </div>
+            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300 mt-2">
               <div className="font-bold mb-2">Source Emotions:</div>
               {renderEmotion(sourceEmotion)}
             </div>
           </div>
         </div>
         <div className="card rounded-none w-96">
-          <div className="card-body items-center text-center">
-            <textarea
-              id="translatedmessage"
-              rows="7"
-              value={translatedText}
-              onChange={(e) => setTranslatedText(e.target.value)}
-              className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              placeholder="Translated Message..."
-              style={{ height: "auto", resize: "vertical" }}
-            ></textarea>
-            <button
-              onClick={copyTranslatedText}
-              className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            >
-              Copy
-            </button>
-            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300">
+          <div className="card-body items-center text-center relative">
+            <div className="relative w-full">
+              <textarea
+                id="translatedmessage"
+                rows="7"
+                value={translatedText}
+                onChange={(e) => setTranslatedText(e.target.value)}
+                className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                placeholder="Translated Message..."
+                style={{ height: "auto", resize: "vertical" }}
+              ></textarea>
+              <button
+                onClick={() => copyText(translatedText)} // Fixed the copyText parameter
+                className="absolute bottom-4 right-4 text-gray-600"
+              >
+                <Image src={CopyIcon} width={24} height={24} alt="Copy icon" />
+              </button>
+            </div>
+            <div className="block p-3 w-full text-sm text-green-900 font-semibold bg-gray-50 rounded-lg border border-gray-300 mt-2">
               <div className="font-bold mb-2">Translated Emotions:</div>
               {renderEmotion(sourceEmotion)}
             </div>
           </div>
         </div>
       </div>
+
       <div className="text-center text-2xl font-bold text-customGreen m-4">
         Translation Summary
       </div>

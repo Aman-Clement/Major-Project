@@ -56,7 +56,7 @@ def translate(source, target):
         score = is_similar(original_emotions, translated_emotions)
         print(eng_source, eng_target, score)
         attempts += 1
-    return {"response":response, "score":round(score,2) * 100, "attempts":attempts}
+    return {"response":response, "score":round(score,3) * 100, "attempts":attempts}
 
 @app.route("/detect-emotions/<source>", methods=["POST"])
 # @cache.cached(timeout=3000, key_prefix=make_cache_key)

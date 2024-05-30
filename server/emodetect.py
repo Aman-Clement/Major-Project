@@ -47,7 +47,7 @@ def get_emotion(text):
     for item in prominent_emotions:
         emoji = emotion_to_emoji.get(item["label"], None)
         item["emoji"] = emoji
-        item["score"] = round(item['score']) * 100
+        item["score"] = round(item['score'],3) * 100
         item["label"] = item["label"].capitalize()
     return prominent_emotions
 
